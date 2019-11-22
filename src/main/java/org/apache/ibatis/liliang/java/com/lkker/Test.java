@@ -1,6 +1,7 @@
 package org.apache.ibatis.liliang.java.com.lkker;
 
 import org.apache.ibatis.io.Resources;
+import org.apache.ibatis.liliang.java.com.lkker.mapper.UserMapper;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
@@ -20,6 +21,7 @@ public class Test {
         InputStream inputStream = Resources.getResourceAsStream(resource);
         SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
 
-        sqlSessionFactory.openSession()
+        SqlSession sqlSession = sqlSessionFactory.openSession();
+        UserMapper mapper = sqlSession.getMapper(UserMapper.class);
     }
 }

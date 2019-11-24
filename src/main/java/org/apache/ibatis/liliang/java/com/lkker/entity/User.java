@@ -51,4 +51,15 @@ public class User {
     public void setHobby(String hobby) {
         this.hobby = hobby;
     }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", gender=" + gender +
+                ", age=" + age +
+                ", hobby='" + hobby + '\'' +
+                '}';
+    }
 }

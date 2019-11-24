@@ -8,7 +8,9 @@ package org.apache.ibatis.liliang.java.com.lkker.entity;
 public class User {
     private int id;
     private String name;
+    private int gender;
     private int age;
+    private String hobby;
 
     public int getId() {
         return id;
@@ -26,6 +28,14 @@ public class User {
         this.name = name;
     }
 
+    public int getGender() {
+        return gender;
+    }
+
+    public void setGender(int gender) {
+        this.gender = gender;
+    }
+
     public int getAge() {
         return age;
     }
@@ -34,12 +44,11 @@ public class User {
         this.age = age;
     }
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", age=" + age +
-                '}';
+    public String getHobby() {
+        return hobby;
+    }
+
+    public void setHobby(String hobby) {
+        this.hobby = hobby;
     }
 }

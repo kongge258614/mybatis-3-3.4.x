@@ -3,7 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.apache.ibatis.liliang.java.com.lkker.mapper.UserMapper">
-    <select id="selectUserById" resultType="User">
+    <select id="selectUserById" resultType="org.apache.ibatis.liliang.java.com.lkker.entity.User">
     select * from User where id = #{id}
   </select>
 </mapper>

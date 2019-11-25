@@ -23,9 +23,15 @@ public class Test {
         SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
 
         SqlSession sqlSession = sqlSessionFactory.openSession();
-        UserMapper mapper = sqlSession.getMapper(UserMapper.class);
-        User user = mapper.selectUserById(100);
-        System.out.println(user);
+        try{
+            UserMapper mapper = sqlSession.getMapper(UserMapper.class);
+            User user = mapper.selectUserById(100);
+            System.out.println(user);
+        }finally {
+            sqlSession.close();
+        }
+
+
 
     }
 }

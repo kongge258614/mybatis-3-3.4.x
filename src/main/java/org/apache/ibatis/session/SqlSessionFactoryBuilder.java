@@ -28,6 +28,8 @@ import org.apache.ibatis.session.defaults.DefaultSqlSessionFactory;
 /**
  * Builds {@link SqlSession} instances.
  *
+ * 创建 SqlSessionFactory 实例
+ *
  * @author Clinton Begin
  */
 public class SqlSessionFactoryBuilder {

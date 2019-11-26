@@ -20,6 +20,7 @@ import java.net.URL;
 
 /**
  * A class to wrap access to multiple class loaders making them work as one
+ * 封装对多个类装入器的访问的类，使它们作为一个类工作
  *
  * @author Clinton Begin
  */

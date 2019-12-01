@@ -42,6 +42,8 @@ import org.xml.sax.SAXParseException;
 /**
  * @author Clinton Begin
  */
+
+// XML Path 的解析器
 public class XPathParser {
 
   private final Document document;
@@ -205,6 +207,7 @@ public class XPathParser {
     return xnodes;
   }
 
+  // evalNode = evaluate Node 评估/计算 这个节点
   public XNode evalNode(String expression) {
     return evalNode(document, expression);
   }

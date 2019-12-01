@@ -17,5 +17,6 @@
     </environments>
     <mappers>
         <mapper resource="org/apache/ibatis/liliang/resources/UserMapper.xml"/>
+        <!--<package name="org.apache.ibatis.liliang.mapper"/>-->
     </mappers>
 </configuration>

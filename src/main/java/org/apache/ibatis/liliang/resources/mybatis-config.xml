@@ -16,7 +16,7 @@
         </environment>
     </environments>
     <mappers>
-        <!--<package name="org.apache.ibatis.liliang.java.com.lkker.mapper"/>-->
-        <mapper resource="org/apache/ibatis/liliang/resources/UserMapper.xml" />
+        <package name="org.apache.ibatis.liliang.java.com.lkker.mapper"/>
+        <!--<mapper resource="org/apache/ibatis/liliang/resources/UserMapper.xml" />-->
     </mappers>
 </configuration>

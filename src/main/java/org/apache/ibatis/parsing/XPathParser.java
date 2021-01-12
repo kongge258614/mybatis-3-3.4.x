@@ -43,13 +43,30 @@ import org.xml.sax.SAXParseException;
  * @author Clinton Begin
  */
 
-// XML Path 的解析器
+/**
+ * XML Path 的解析器
+ */
 public class XPathParser {
 
+  /**
+   * Document对象
+   */
   private final Document document;
+  /**
+   * 是否开启验证
+   */
   private boolean validation;
+  /**
+   * 用于加载本地的DTD文件
+   */
   private EntityResolver entityResolver;
+  /**
+   * 对应配置文件中<propteries>标签定义的键位对集合
+   */
   private Properties variables;
+  /**
+   * XPath对象
+   */
   private XPath xpath;
 
   public XPathParser(String xml) {

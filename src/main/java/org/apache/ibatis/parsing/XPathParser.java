@@ -247,7 +247,10 @@ public class XPathParser {
 
   private Document createDocument(InputSource inputSource) {
     // important: this must only be called AFTER common constructor
+      // 那为什么必须在调用commonConstructor函数后才能调用这个函数呢？因为这个函数里面用到了两个属性：validation和entityResolver
+      // 如果在这两个属性没有设置前就调用这个函数，就可能会导致这个类内部属性冲突
     try {
+        //创建document时用到了两个类：DocumentBuilderFactory和DocumentBuilder。
       DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
       factory.setValidating(validation);
 
@@ -281,9 +284,11 @@ public class XPathParser {
   }
 
   private void commonConstructor(boolean validation, Properties variables, EntityResolver entityResolver) {
+      // 初始化这个类的基本属性
     this.validation = validation;
     this.entityResolver = entityResolver;
     this.variables = variables;
+    //利用XPathFactory创建一个新的xpath对象
     XPathFactory factory = XPathFactory.newInstance();
     this.xpath = factory.newXPath();
   }

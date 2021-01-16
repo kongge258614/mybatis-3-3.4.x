@@ -45,6 +45,7 @@ import org.xml.sax.SAXParseException;
 
 /**
  * XML Path 的解析器
+ * XPathParser类封装了Document、EntityResolver 和XPath等对象，然后提供了一系列的解析XML的方法。
  */
 public class XPathParser {
 
@@ -65,7 +66,7 @@ public class XPathParser {
    */
   private Properties variables;
   /**
-   * XPath对象
+   * XPath对象，XPath 是一种为查询XML 文档而设计的语言，它可以与DOM 解析方式配合使用，实现对XML 文档的解析。
    */
   private XPath xpath;
 

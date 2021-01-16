@@ -17,6 +17,9 @@ package org.apache.ibatis.parsing;
 
 /**
  * @author Clinton Begin
+ *
+ * GenericTokenParser类是通用的标记解析器，主要完成了配置文件、脚本等文件或代码片段中的占位符的解析工作，
+ * 然后再根据给定的标记处理器（TokenHandler）来进行表达式的处理工作。
  */
 public class GenericTokenParser {
 
@@ -35,10 +38,12 @@ public class GenericTokenParser {
       return "";
     }
     // search open token
+      // 不存在开始标记，直接返回
     int start = text.indexOf(openToken, 0);
     if (start == -1) {
       return text;
     }
+      // 转换成字符数组
     char[] src = text.toCharArray();
     int offset = 0;
     final StringBuilder builder = new StringBuilder();

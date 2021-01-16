@@ -65,6 +65,9 @@ public class ResolverUtil<T> {
   /**
    * A simple interface that specifies how to test classes to determine if they
    * are to be included in the results produced by the ResolverUtil.
+   *
+   * My Batis 提供了两个常用的Test 接口实现，分别是IsA 和AnnotatedWith。
+   * IsA 用于检测类是否继承了指定的类或接口， AnnotatedWith 用于检测类是否添加了指定的注解。
    */
   public interface Test {
     /**
@@ -209,6 +212,7 @@ public class ResolverUtil<T> {
    * true the class is retained.  Accumulated classes can be fetched by calling
    * {@link #getClasses()}.
    *
+   * ResolverUtil可以根据指定的条件查找指定包下的类，其中使用的条件由Test接口表示。
    * @param test an instance of {@link Test} that will be used to filter classes
    * @param packageName the name of the package from which to start scanning for
    *        classes, e.g. {@code net.sourceforge.stripes}

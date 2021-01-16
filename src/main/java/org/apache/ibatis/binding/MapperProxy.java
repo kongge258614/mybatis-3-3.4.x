@@ -30,6 +30,7 @@ import org.apache.ibatis.session.SqlSession;
 /**
  * @author Clinton Begin
  * @author Eduardo Macarron
+ * MapperProxy实现了lnvocationHandler接口，是代理对象。
  */
 public class MapperProxy<T> implements InvocationHandler, Serializable {
 

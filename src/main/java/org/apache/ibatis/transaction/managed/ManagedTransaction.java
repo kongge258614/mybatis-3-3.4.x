@@ -32,6 +32,9 @@ import org.apache.ibatis.transaction.Transaction;
  *
  * @author Clinton Begin
  *
+ * ManagedTransaction 的实现非常简单，它依赖其中的dataSource 宇段获取连接，其中connection连接还是在该方法中进行初始化或配置，
+ * 其他方法比如commit()、rollback()方法都是空实现，事务的提交和回漆都是依靠容器管理的。
+ *
  * @see ManagedTransactionFactory
  */
 public class ManagedTransaction implements Transaction {

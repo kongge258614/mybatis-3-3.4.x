@@ -39,6 +39,9 @@ import java.util.*;
  * @author Clinton Begin
  * @author Eduardo Macarron
  * @author Lasse Voss
+ *
+ * 定义Mapper接口中对应方法的信息以及对应SQL语句的信息，用来完成参数转换以及SQL语句的执行功能，
+ * 可以看成连接Mapper接口以及映射配置文件中定义的SQL语句的桥梁。
  */
 public class MapperMethod {
 
@@ -210,7 +213,10 @@ public class MapperMethod {
 
   public static class SqlCommand {
 
+    //定义SQL命令的名称，由Mapper接口的全限定类名与对应的方法名称组成的。
     private final String name;
+
+    //定义SQL命令的类型,SqlCommandType是枚举类型，可选值为：UNKNOWN, INSERT, UPDATE, DELETE, SELECT, FLUSH;
     private final SqlCommandType type;
 
     public SqlCommand(Configuration configuration, Class<?> mapperInterface, Method method) {
@@ -266,15 +272,15 @@ public class MapperMethod {
 
   public static class MethodSignature {
 
-    private final boolean returnsMany;
-    private final boolean returnsMap;
-    private final boolean returnsVoid;
-    private final boolean returnsCursor;
-    private final Class<?> returnType;
-    private final String mapKey;
-    private final Integer resultHandlerIndex;
-    private final Integer rowBoundsIndex;
-    private final ParamNameResolver paramNameResolver;
+    private final boolean returnsMany;  //返回值类型是否为Collection类型或是数组类型
+    private final boolean returnsMap;   //返回值类型是否为Map类型
+    private final boolean returnsVoid;  //返回值类型是否为void类型
+    private final boolean returnsCursor;  //返回值是否为Cursor类型
+    private final Class<?> returnType;  //返回值类型
+    private final String mapKey;  //如果返回值类型是Map，则该字段记录了作为key的列名
+    private final Integer resultHandlerIndex;  //用来标记该方法参数列表中ResultHandler类型参数的位置
+    private final Integer rowBoundsIndex;  //用来标记该方法参数列表中RowBounds类型参数的位置
+    private final ParamNameResolver paramNameResolver;  //该方法对应的ParamNameResolver对象，主要用来处理方法的参数
 
     public MethodSignature(Configuration configuration, Class<?> mapperInterface, Method method) {
       Type resolvedReturnType = TypeParameterResolver.resolveReturnType(method, mapperInterface);

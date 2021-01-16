@@ -30,6 +30,7 @@ import java.util.Set;
  * @author Clinton Begin
  * @author Eduardo Macarron
  * @author Lasse Voss
+ * Mapper接口及其对应的代理对象工厂的注册中心
  */
 public class MapperRegistry {
 

@@ -93,6 +93,12 @@ import org.apache.ibatis.type.TypeHandlerRegistry;
 
 /**
  * @author Clinton Begin
+ * mybatis中所有环境配置、resultMap集合、sql语句集合、插件列表、缓存、加载的xml列表、类型别名、类型处理器等全部都维护在Configuration中。
+ * Configuration中包含了一个内部静态类StrictMap，它继承于HashMap，对HashMap的装饰在于增加了put时防重复的处理，get时取不到值时候的异常处理，
+ * 这样核心应用层就不需要额外关心各种对象异常处理,简化应用层逻辑。
+ *
+ * 从设计上来说，我们可以说Configuration并不是一个thin类(也就是仅包含了属性以及getter/setter)，而是一个rich类，
+ * 它对部分逻辑进行了封装便于用户直接使用,而不是让用户各自散落处理，比如addResultMap方法和getMappedStatement方法等等。
  */
 public class Configuration {
 

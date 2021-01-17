@@ -246,6 +246,7 @@ public class XPathParser {
     }
   }
 
+  //主要是根据mybatis自身需要创建一个文档解析器，然后调用parse将输入input source解析为DOM XML文档并返回。
   private Document createDocument(InputSource inputSource) {
     // important: this must only be called AFTER common constructor
       // 那为什么必须在调用commonConstructor函数后才能调用这个函数呢？因为这个函数里面用到了两个属性：validation和entityResolver
@@ -259,9 +260,11 @@ public class XPathParser {
       factory.setIgnoringComments(true);
       factory.setIgnoringElementContentWhitespace(false);
       factory.setCoalescing(false);
+      //设置是否展开实体引用节点，这里应该是sql片段引用的关键
       factory.setExpandEntityReferences(true);
 
       DocumentBuilder builder = factory.newDocumentBuilder();
+      //设置解析mybatis xml文档节点的解析器,也就是上面的XMLMapperEntityResolver
       builder.setEntityResolver(entityResolver);
       builder.setErrorHandler(new ErrorHandler() {
         @Override

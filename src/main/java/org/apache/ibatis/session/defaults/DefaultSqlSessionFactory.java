@@ -97,6 +97,8 @@ public class DefaultSqlSessionFactory implements SqlSessionFactory {
       // 其中POOLED对应的实现为org.apache.ibatis.datasource.pooled.PooledDataSource,它是mybatis自带实现的一个同步、
       // 线程安全的数据库连接池 一般在生产中,我们会使用dbcp或者druid连接池
       tx = transactionFactory.newTransaction(environment.getDataSource(), level, autoCommit);
+
+      // 拿到事务后，根据事务和执行器类型创建一个真正的执行器实例
       final Executor executor = configuration.newExecutor(tx, execType);
       return new DefaultSqlSession(configuration, executor, autoCommit);
     } catch (Exception e) {

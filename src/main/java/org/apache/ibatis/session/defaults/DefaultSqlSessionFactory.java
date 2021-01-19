@@ -91,7 +91,11 @@ public class DefaultSqlSessionFactory implements SqlSessionFactory {
     Transaction tx = null;
     try {
       final Environment environment = configuration.getEnvironment();
+      // 获取事务管理器, 支持从数据源或者直接获取
       final TransactionFactory transactionFactory = getTransactionFactoryFromEnvironment(environment);
+      // 从数据源创建一个事务, 同样,数据源必须配置, mybatis内置了JNDI、POOLED、UNPOOLED三种类型的数据源,
+      // 其中POOLED对应的实现为org.apache.ibatis.datasource.pooled.PooledDataSource,它是mybatis自带实现的一个同步、
+      // 线程安全的数据库连接池 一般在生产中,我们会使用dbcp或者druid连接池
       tx = transactionFactory.newTransaction(environment.getDataSource(), level, autoCommit);
       final Executor executor = configuration.newExecutor(tx, execType);
       return new DefaultSqlSession(configuration, executor, autoCommit);

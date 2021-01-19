@@ -120,9 +120,11 @@ public class MapperAnnotationBuilder {
 
   public void parse() {
     String resource = type.toString();
+    //首先根据mapper接口的字符串表示判断是否已经加载,避免重复加载,正常情况下应该都没有加载
     if (!configuration.isResourceLoaded(resource)) {
       loadXmlResource();
       configuration.addLoadedResource(resource);
+      // 每个mapper文件自成一个namespace，通常自动匹配就是这么来的，约定俗成代替人工设置最简化常见的开发
       assistant.setCurrentNamespace(type.getName());
       parseCache();
       parseCacheRef();
@@ -131,6 +133,7 @@ public class MapperAnnotationBuilder {
         try {
           // issue #237
           if (!method.isBridge()) {
+            // 解析接口中的每一个方法
             parseStatement(method);
           }
         } catch (IncompleteElementException e) {
@@ -284,16 +287,22 @@ public class MapperAnnotationBuilder {
   }
 
   void parseStatement(Method method) {
+    // 获取参数类型,如果有多个参数,这种情况下就返回org.apache.ibatis.binding.MapperMethod.ParamMap.class，ParamMap是一个继承于HashMap的类，否则返回实际类型
     Class<?> parameterTypeClass = getParameterType(method);
+    // 获取语言驱动器
     LanguageDriver languageDriver = getLanguageDriver(method);
+    // 获取方法的SqlSource对象,只有指定了@Select/@Insert/@Update/@Delete或者对应的Provider的方法才会被当作mapper,否则只是和mapper文件中对应语句的一个运行时占位符
     SqlSource sqlSource = getSqlSourceFromAnnotations(method, parameterTypeClass, languageDriver);
     if (sqlSource != null) {
+      // 获取方法的属性设置，对应<select>中的各种属性
       Options options = method.getAnnotation(Options.class);
       final String mappedStatementId = type.getName() + "." + method.getName();
       Integer fetchSize = null;
       Integer timeout = null;
       StatementType statementType = StatementType.PREPARED;
       ResultSetType resultSetType = ResultSetType.FORWARD_ONLY;
+
+      // 获取语句的CRUD类型
       SqlCommandType sqlCommandType = getSqlCommandType(method);
       boolean isSelect = sqlCommandType == SqlCommandType.SELECT;
       boolean flushCache = !isSelect;
@@ -302,6 +311,8 @@ public class MapperAnnotationBuilder {
       KeyGenerator keyGenerator;
       String keyProperty = "id";
       String keyColumn = null;
+
+      // 只有INSERT/UPDATE才解析SelectKey选项,总体来说，它的实现逻辑和XML基本一致
       if (SqlCommandType.INSERT.equals(sqlCommandType) || SqlCommandType.UPDATE.equals(sqlCommandType)) {
         // first check for SelectKey annotation - that overrides everything else
         SelectKey selectKey = method.getAnnotation(SelectKey.class);
@@ -333,6 +344,9 @@ public class MapperAnnotationBuilder {
       }
 
       String resultMapId = null;
+      // 解析@ResultMap注解,如果有@ResultMap注解,就是用它，否则才解析@Results
+      // @ResultMap注解用于给@Select和@SelectProvider注解提供在xml配置的<resultMap>,
+      // 如果一个方法上同时出现@Results或者@ConstructorArgs等和结果映射有关的注解,那么@ResultMap会覆盖后面两者的注解
       ResultMap resultMapAnnotation = method.getAnnotation(ResultMap.class);
       if (resultMapAnnotation != null) {
         String[] resultMaps = resultMapAnnotation.value();
@@ -345,6 +359,8 @@ public class MapperAnnotationBuilder {
         }
         resultMapId = sb.toString();
       } else if (isSelect) {
+
+        //如果是查询，且没有明确设置ResultMap，则根据返回类型自动解析生成ResultMap
         resultMapId = parseResultMap(method);
       }
 

@@ -69,6 +69,7 @@ public class XMLStatementBuilder extends BaseBuilder {
     String resultMap = context.getStringAttribute("resultMap");
     String resultType = context.getStringAttribute("resultType");
     String lang = context.getStringAttribute("lang");
+    // MyBatis 从 3.2 开始支持可插拔的脚本语言，因此你可以在插入一种语言的驱动（language driver）之后来写基于这种语言的动态 SQL 查询。
     LanguageDriver langDriver = getLanguageDriver(lang);
 
     Class<?> resultTypeClass = resolveClass(resultType);
@@ -77,9 +78,13 @@ public class XMLStatementBuilder extends BaseBuilder {
     ResultSetType resultSetTypeEnum = resolveResultSetType(resultSetType);
 
     String nodeName = context.getNode().getNodeName();
+    // 解析SQL命令类型，目前主要有UNKNOWN, INSERT, UPDATE, DELETE, SELECT, FLUSH
     SqlCommandType sqlCommandType = SqlCommandType.valueOf(nodeName.toUpperCase(Locale.ENGLISH));
     boolean isSelect = sqlCommandType == SqlCommandType.SELECT;
+
+    // insert/delete/update后是否刷新缓存
     boolean flushCache = context.getBooleanAttribute("flushCache", !isSelect);
+    // select是否使用缓存
     boolean useCache = context.getBooleanAttribute("useCache", isSelect);
     boolean resultOrdered = context.getBooleanAttribute("resultOrdered", false);
 
@@ -91,6 +96,8 @@ public class XMLStatementBuilder extends BaseBuilder {
     processSelectKeyNodes(id, parameterTypeClass, langDriver);
     
     // Parse the SQL (pre: <selectKey> and <include> were parsed and removed)
+    // 使用语言驱动器创建SqlSource
+    // SqlSource是一个接口，它代表了从xml或者注解上读取到的sql映射语句的内容，其中参数使用占位符进行了替换，在运行时，其代表的SQL会发送给数据库
     SqlSource sqlSource = langDriver.createSqlSource(configuration, context, parameterTypeClass);
     String resultSets = context.getStringAttribute("resultSets");
     String keyProperty = context.getStringAttribute("keyProperty");

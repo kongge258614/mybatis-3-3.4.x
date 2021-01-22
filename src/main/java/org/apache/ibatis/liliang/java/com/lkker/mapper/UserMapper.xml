@@ -6,4 +6,8 @@
     <select id="selectUserById" parameterType="int" resultType="org.apache.ibatis.liliang.java.com.lkker.entity.User">
     select * from user where id = #{id}
   </select>
+
+    <select id="selectUserByName" parameterType="String" resultType="org.apache.ibatis.liliang.java.com.lkker.entity.User">
+    select * from user where name = #{name}
+  </select>
 </mapper>

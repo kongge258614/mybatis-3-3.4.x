@@ -9,6 +9,7 @@ import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 
 /**
  * @Author liliang
@@ -25,8 +26,9 @@ public class Test {
         SqlSession sqlSession = sqlSessionFactory.openSession();
         try{
             UserMapper mapper = sqlSession.getMapper(UserMapper.class);
-            User user = mapper.selectUserById(100);
-            System.out.println(user);
+//            User user = mapper.selectUserById(100);
+            List<User> users = mapper.selectUserByName("name", "杜德兴");
+            System.out.println(users);
         }finally {
             sqlSession.close();
         }
